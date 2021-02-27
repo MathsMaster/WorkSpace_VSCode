@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <time.h>
 
 /* 测试C语言struct用法详解 */
 void testStruct()
@@ -120,6 +121,99 @@ void testEnum()
 /* 测试C语言的公用体 */
 void testUnion()
 {
+    //C语言里竟然没法直接对字符数组赋值
+
+    //定义结构体，并在其中定义共用体
+    struct
+    {
+        char name[20];
+        int num;
+        char sex;
+        char profession;
+        union
+        {
+            float score;
+            char course[20];
+            char *miaosu;
+        } sc;
+    } boys[2] = {{"xiaohong", 123, 'a', 'd'}, {"lanlan", 123, 'a', 'd'}};
+
+    //共用体里面的变量,都是占据的同一块内存,修改其中一个变量,会影响另一个变量的值
+    boys[0].sc.score = 123;
+    printf("name : %s , sc.score : %f \n", boys[0].name, boys[0].sc.score);
+    strcpy(boys[1].sc.course, "Hello World!");
+    printf("name : %s , sc.course : %s \n", boys[1].name, boys[1].sc.course);
+    boys[1].sc.miaosu = "asdasdasdasdasdasdasd";
+    printf("miaosu : %s , sc.course : %s \n", boys[1].sc.miaosu, boys[1].sc.course);
+}
+
+/* C语言位域（位段） */
+void testWeiYu()
+{
+    //一种只有几个bit长度的变量
+    struct BS
+    {
+        unsigned m;
+        unsigned n : 4;
+        unsigned char ch : 6;
+    };
+
+    struct BS b = {0xad, 0x0d, '1'};
+    printf("m :  %#X , n : %#X , ch : %c \n", b.m, b.n, b.ch);
+}
+
+/* 用来测试typedef的用法 */
+void testTypedef()
+{
+    //给基本数据类型起别名
+    typedef int INTEGER;
+    //给数组取别名
+    typedef char array[20]; //array就是char[20]数组了
+    //给结构体取别名
+    typedef struct stu
+    {
+        char name[20];
+        int age;
+        char sex;
+    } STU;
+
+    int(*p)[4]; //二维数组的指针
+    //为二维数组指针类型取别名
+    typedef int(*ppp)[4]; //给二维数组的指针int (*p)[4],取别名 ppp
+
+    //为函数指针类型定义别名
+    typedef int (*PTR_TO_FUNC)(int, int);
+}
+
+/* C语言const的用法 */
+void testConst()
+{
+    //类似于Java中的final,定义后不能修改
+    const int MAX = 100;
+    // MAX = 12;
+
+    //这两种使用const实际上修饰的是 指针所指向的数据空间，指向的数据没法修改，但指针却可以指向别的空间
+    const int *p1;
+    int const *p2;
+    //这种则是const 修饰的指针本身，指针的地址没法修改，也就是说没法在指向别的空间了，但指向的数据却可以修改
+    int *const p3;
+
+    //指针本身指向的数据不能被修改，指针的指向也不能别修改
+    const int *const p4;
+    int const *const p5;
+}
+
+
+/* 测试C语言的随机数 */
+void testRandom()
+{
+    int i = rand();//这个随机数有问题，每次的值都一样，因为生成随机数的种子都是一样的
+    printf("获取一个随机数 i ： %d\n",i);
+
+    srand(time(NULL));//传进去一个新的种子,种子就是当前时间的值
+
+    int a = rand();//
+    printf("修改种子后再次获取一个随机数 a ： %d\n",a);
 }
 
 int main()
@@ -143,6 +237,22 @@ int main()
     //10.5C语言共用体
     printf("\n\n10.5C语言共用体\n");
     testUnion();
+
+    //10.7C语言位域（位段）
+    printf("\n\n10.7C语言位域（位段）\n");
+    testWeiYu();
+
+    //11.1用来测试typedef的用法
+    printf("\n\n11.1用来测试typedef的用法\n");
+    testTypedef();
+
+    //11.2C语言const的用法
+    printf("\n\n11.2C语言const的用法\n");
+    testConst();
+
+    //11.3C语言的随机数
+    printf("\n\n11.3C语言的随机数\n");
+    testRandom();
 
     return 0;
 }
