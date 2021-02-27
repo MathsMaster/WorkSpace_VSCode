@@ -126,7 +126,7 @@ void testTwoWeiArrayPointer()
 }
 
 int main()
-{
+{ 
     //9.8C语言指针作为函数的返回值
     printf("\n\n9.8C语言指针作为函数的返回值\n");
     char *str1 = "12345678";
