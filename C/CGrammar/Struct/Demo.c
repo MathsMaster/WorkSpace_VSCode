@@ -169,6 +169,7 @@ void testTypedef()
     typedef int INTEGER;
     //给数组取别名
     typedef char array[20]; //array就是char[20]数组了
+
     //给结构体取别名
     typedef struct stu
     {
@@ -176,6 +177,12 @@ void testTypedef()
         int age;
         char sex;
     } STU;
+    typedef struct
+    {
+        char name[20];
+        int age;
+        char sex;
+    } SSTU;
 
     int(*p)[4]; //二维数组的指针
     //为二维数组指针类型取别名

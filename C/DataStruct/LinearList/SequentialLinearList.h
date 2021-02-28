@@ -10,26 +10,23 @@
 #define MAXSIZE 50    //定义常量
 typedef int ElemType; //给数据类型取别名
 typedef int Status;   //给数据类型重命名
+
 typedef struct
 {
     ElemType data[MAXSIZE];
     int length;
 } SqList;
 
-/*
-    定义线性表的几个常用方法，初始化，增删改查等等
- */
 //定义线性表的初始化函数
-Status InitList(SqList *l)
+Status InitList()
 {
-    l->length = 0;
     return OK;
 }
 
 //获取线性表的长度
-int Length(SqList l)
+int Length()
 {
-    return l.length;
+    return OK;
 }
 
 //根据元素值查找索引
@@ -43,27 +40,27 @@ void GetElem(SqList l, int i)
 }
 
 //往线性表里插入元素，传进来线性表的指针l，索引i，元素e
-Status ListInsert(SqList *l, int i, ElemType e)
-{    
-    if (i > l->length || i < 0 || l->length >= MAXSIZE)
-    {
-        return ERROR;
-    }
+Status ListInsert()
+{
+    // if (i > l->length || i < 0 || l->length >= MAXSIZE)
+    // {
+    //     return ERROR;
+    // }
 
-    if (i == l->length) //元素直接插入队尾
-    {
-        l->data[i] = e;
-        l->length++;
-    }
-    else //否则就需要将所有元素后移一位（要考虑最后一位元素后移时越界的情况）
-    {
-        for (int j = l->length - 1; j > i; j--)
-        {
-            l->data[j + 1] = l->data[j];
-        }
-        l->data[i] = e;
-        l->length++;
-    }
+    // if (i == l->length) //元素直接插入队尾
+    // {
+    //     l->data[i] = e;
+    //     l->length++;
+    // }
+    // else //否则就需要将所有元素后移一位（要考虑最后一位元素后移时越界的情况）
+    // {
+    //     for (int j = l->length - 1; j > i; j--)
+    //     {
+    //         l->data[j + 1] = l->data[j];
+    //     }
+    //     l->data[i] = e;
+    //     l->length++;
+    // }
     return OK;
 }
 
@@ -94,9 +91,9 @@ void DestoryList(SqList l)
 //根据传进来的线性表，以及索引，取出对应的值返回
 Status getElem(SqList l, int i, ElemType *e)
 {
-    if (l.length == 0 || i >= l.length || i < 0)
-        return ERROR;
+    // if (l.length == 0 || i >= l.length || i < 0)
+    //     return ERROR;
 
-    *e = l.data[i]; //给指针所指向的地址赋值
+    // *e = l.data[i]; //给指针所指向的地址赋值
     return OK;
 }
