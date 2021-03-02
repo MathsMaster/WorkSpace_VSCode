@@ -1,6 +1,7 @@
 /* 用于演示线性表一章中的各种数据结构 */
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "LinearList.h"
 #include "SequentialLinearList.h"
 
@@ -19,7 +20,7 @@ void testLinearList()
 void testSequentialLinearList()
 {
     int arr[4] = {1, 2, 3, 4};
-    printf("打印数组 arr : %#X \n", arr);
+    printf("打印数组 arr : %#X \n", arr); //数组不管是否使用&,打印出来的都是数组首地址
     printf("打印数组 &arr : %#X \n", &arr);
 
     SeqList seqList; //结构体这里直接打印seqList，取出来的并不是内存地址
@@ -29,23 +30,29 @@ void testSequentialLinearList()
     InitList(&seqList); //这里和java不同，java可以直接传递对象进去，这里传递的结构体会被复制一份作为局部变量传递进去
     printf("初始化后的线性表的大小 : %d \n", seqList.length);
 
-    for (int i = 0; i < 20; i++)
+    char *bookNames[] = {"斗罗大陆", "鬼吹灯", "狂神", "让你爱的人爱上你", "亲昵关系", "雪鹰领主", "斗破苍穹", "猛龙过江", "拆弹专家1", "特种部队1", "特种部队2", "哪吒"};
+    for (int i = 0; i < 12; i++)
     {
-        ListInsert(&seqList, i, i * 2);
+        ElemType element = {"123123123", bookNames[i], 12.3 + i * 2}; //指针和数组还没法直接相互赋值
+        ListInsert(&seqList, i, &element);
     }
-    ListInsert(&seqList, 13, 38888832);
-    PrintList(&seqList);
 
-    //删除对应的元素
-    int i = 0;
-    ListDelete(&seqList, 10, &i);
-    printf("删除的元素是 i : %d \n", i);
-    printList(seqList);
+    //插入元素
+    ElemType elem = {"123", "无限恐怖", 200.45};
+    ListInsert(&seqList, 8, &elem);
+    PrintList(&seqList);
 
     //根据值查找对应的元素
     int a = -1;
-    LocateElem(&seqList, 30, &a);
+    LocateElem(&seqList, &elem, &a);
     printf("查找到的元素索引为 : %d \n", a);
+
+    //删除对应的元素
+    int i = 10;
+    ElemType el;
+    ListDelete(&seqList, i, &el);
+    printf("删除的元素是 i : %d , name : %s \n", i, el.name);
+    PrintList(&seqList);
 }
 
 int main()
@@ -71,7 +78,6 @@ int main()
  */
 void lookMinInteger(int *arr, int len, int *a)
 {
-
 }
 
 /* 
@@ -82,7 +88,6 @@ void lookMinInteger(int *arr, int len, int *a)
  */
 void lookMinInteger3(int *arr, int len, int *a)
 {
-
 }
 
 /* 

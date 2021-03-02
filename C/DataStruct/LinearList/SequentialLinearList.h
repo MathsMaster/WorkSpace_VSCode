@@ -7,8 +7,13 @@
 #define FALSE -1;
 
 //定义线性表的结构体
-#define MAXSIZE 50    //定义常量
-typedef int ElemType; //给数据类型取别名
+#define MAXSIZE 500    //定义常量
+
+typedef struct Book{
+    char no[20];
+    char *name;
+    float price;
+} ElemType;//给数据类型取别名
 typedef int Status;   //给数据类型重命名
 
 typedef struct
@@ -34,11 +39,11 @@ int Length(SeqList list)
 /* 
     根据元素值查找索引,并返回对应的查找到的索引
 */
-void LocateElem(SeqList *l, ElemType e, int *index)
+void LocateElem(SeqList *l, ElemType *e, int *index)
 {
     for(int i = 0 ; i < l->length;i++)
     {
-        if(l->data[i] == e)
+        if(l->data[i].name == e->name)
         {
             *index = i;
             break;
@@ -57,14 +62,14 @@ void GetElem(SeqList l, int i)
         再判断是否插入到最后位置，是的话，就直接插入
         不是插入最后的位置，则要把后面元素往后移动一位
  */
-Status ListInsert(SeqList *l, int i, ElemType e)
+Status ListInsert(SeqList *l, int i, ElemType *e)
 {
     if (i < 0 || i >= MAXSIZE || i > l->length)
         return ERROR;
 
     if (i == l->length) //元素直接插入队尾,无需移动其他元素
     {
-        l->data[i] = e;
+        l->data[i] = *e;
         l->length++;
     }
     else //否则就需要将所有元素后移一位（要考虑最后一位元素后移时越界的情况）
@@ -73,7 +78,7 @@ Status ListInsert(SeqList *l, int i, ElemType e)
         {
             l->data[j + 1] = l->data[j];
         }
-        l->data[i] = e;
+        l->data[i] = *e;
         l->length++;
     }
     return OK;
@@ -112,16 +117,7 @@ void PrintList(SeqList *l)
 {
     for (int i = 0; i < l->length; i++)
     {
-        printf("元素索引位置 %d : %d \n", i, l->data[i]);
-    }
-}
-
-//打印线性表中的所有元素
-void printList(SeqList l)
-{
-    for (int i = 0; i < l.length; i++)
-    {
-        printf("元素索引位置 %d : %d \n", i, l.data[i]);
+        printf("元素索引位置 %d ,  书名 : %s , 版号 : %s ,价格: %f \n", i, l->data[i].name,l->data[i].no,l->data[i].price);
     }
 }
 
