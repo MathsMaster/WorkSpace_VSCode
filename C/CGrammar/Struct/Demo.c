@@ -105,6 +105,50 @@ void average(struct Stu *sp, int len)
     printf("平均分数为 average : %f \n", average); //这里不能乱用类型转换啊
 }
 
+/* 
+    从测试结果来看,直接传递结构体对象,参数这里实际上也是复制了一份新的数据,使用的新的内存地址
+ */
+void modifyParam(struct Stu stu)
+{
+    printf("内部函数打印出的结构体对象地址  : %#X \n",&stu);
+    stu.name = "小明";
+    stu.age = 500;
+    stu.score = 30000000.000;
+    printf("内部函数修改后 ..... \n");
+    printf("内部函数取值  stu.name : %s   stu.age : %d   stu.score %f \n",stu.name,stu.age,stu.score);
+}
+
+void modifyParamByPointer(struct Stu *stu)
+{
+    printf("内部函数打印出的结构体对象地址  : %#X \n",stu);
+    stu->name = "小明";
+    stu->age = 500;
+    stu->score = 30000000.000;
+    printf("内部函数修改后 ..... \n");
+    printf("内部函数取值  stu->name : %s   stu->age : %d   stu->score %f \n",stu->name,stu->age,stu->score);
+}
+
+/* 
+    测试结构体对象不使用指针的情况下;
+    作为参数传递时，在函数中能取到值吗，同时在函数中直接修改能有效吗
+ */
+void testStructParam()
+{
+    struct Stu stu;
+    printf("外部函数打印出的结构体对象地址  : %#X \n",&stu);
+    printf("赋值前 ..... \n");
+    printf("外部函数  stu.name : %s   stu.age : %d   stu.score %f \n",stu.name,stu.age,stu.score);
+    stu.name = "Hello World";
+    stu.age = 22;
+    stu.score = 120;
+    printf("赋值后 ..... \n");
+    printf("外部函数  stu.name : %s   stu.age : %d   stu.score %f \n",stu.name,stu.age,stu.score);
+    modifyParamByPointer(&stu);
+    printf("外部函数取值 stu.name : %s   stu.age : %d   stu.score %f \n",stu.name,stu.age,stu.score);
+}
+
+
+
 /* 测试C语言的枚举类型 */
 void testEnum()
 {
@@ -236,6 +280,10 @@ int main()
     //10.3测试C语言的结构体指针
     printf("\n\n10.3测试C语言的结构体指针\n");
     testStructPointer();
+
+    //10.3.1测试C语言的结构体作为参数传递的效果
+    printf("\n\n10.3.1测试C语言的结构体作为参数传递的效果\n");
+    testStructParam();
 
     //10.4C语言枚举类型
     printf("\n\n10.4C语言枚举类型\n");
