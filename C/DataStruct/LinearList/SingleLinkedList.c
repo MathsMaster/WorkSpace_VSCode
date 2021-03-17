@@ -4,7 +4,7 @@
 #include <stdbool.h>
 
 #define OK 1
-#define ERROR -1;
+#define ERROR 0;
 #define TRUE 1;
 #define FALSE -1;
 
@@ -12,7 +12,7 @@ typedef int ElemType; //给数据类型取别名
 
 typedef int Status; //给数据类型重命名
 
-/* 定义单链表 */
+/* 定义单链表的结构体 */
 typedef struct
 {
     ElemType data;     //节点上存储数据的部分
@@ -79,18 +79,74 @@ Node *LocateElem(LinkedList list, ElemType e)
 /* 
     往链表中插入数据(需要创建元素)
     list 指向单链表头节点的指针
-    index 元素插入位置的索引
+    index 元素插入位置的索引,从0开始计算，以首元节点为0
     e 等待插入的数据
  */
-Status ListInsert(LinkedList list,int index,ElemType e)
+Status ListInsert(LinkedList list, int index, ElemType e)
 {
-    
+    if (index < 0)
+        return ERROR;
+    if (index == 0) //如果是准备从第0个元素的位置插入
+    {
+        Node *newNode = malloc(sizeof(Node)); //创建新节点所需的空间
+        newNode->data = e;
+        newNode->next = list->next;
+        list->next = newNode;
+        return OK;
+    }
+    else //如果是准备从其他位置开始插入节点
+    {
+        Node *tempNode = list->next; //先指向首元节点
+        int i = 0;
+        while (true) //如果索引越界,就直接返回
+        {
+            if (i == index - 1) //如果当前找到了准备插入的节点位置的前一个节点,准备动手
+                break;
+            tempNode = tempNode->next;
+            i++;
+            if (tempNode == NULL) //什么时候判断是否越界比较好呢
+                return ERROR;
+        }
+        Node *newNode = malloc(sizeof(Node)); //创建新节点所需的空间
+        newNode->data = e;
+        newNode->next = tempNode->next;
+        tempNode->next = newNode;
+        return OK;
+    }
 }
 
-/* 根据索引删除链表中的元素 */
-Status ListDalete()
+/* 
+    根据索引删除链表中的元素 
+    list 一个指针,指向了链表的头节点
+    index 索引所在位置从0开始,从首元节点开始计算
+*/
+Status ListDelete(LinkedList list, int index)
 {
+    if (index < 0) //针对小于0的情况
+        return ERROR;
+    Node *tempNode = list->next; //先指向首元节点
+    if (index == 0)              //针对等于0的情况, 如果删除的就是头节点,将首元节点的下一个直接链接到头节点上
+    {
+        list->next = tempNode->next;
+        return OK;
+    }
 
+    int i = 0;
+    while (true) //从索引1开始查找的节点
+    {
+        if (i == index - 1) //找到待删除节点的前驱节点
+            break;
+        tempNode = tempNode->next;
+        i++;
+        if (tempNode == NULL) //出现了越界的情况
+            return ERROR;
+    }
+
+    Node *deleteNode = tempNode->next; //找到待删除的节点指针
+    if (deleteNode == NULL)            //如果要删除的是最后一个元素的后面一个就直接返回
+        return ERROR;
+    tempNode->next = deleteNode->next; //将待删除节点的后驱节点，和待删除元素前驱节点链接起来
+    return OK;
 }
 
 /* 
@@ -107,6 +163,25 @@ Status CreateList_H(LinkedList l, int n)
         node->data = i * 10;
         node->next = l->next; //将头节点后面的其他节点,都挂到新的节点上
         l->next = node;       //将新加入的节点,挂到头节点上
+    }
+    return OK;
+}
+/* 
+    使用后插法创建链表
+    数据都是从链表的最后一个节点衔接上
+    list 一个指针,指向的是链表的头节点
+    len 需要添加的数据长度
+ */
+Status CreateList_L(LinkedList list, int len)
+{
+    //创建尾指针,尾指针初时是指向头节点
+    Node *lateNode = list;
+    for (int i = 0; i < len; i++)
+    {
+        Node *node = malloc(sizeof(Node)); //开辟节点的空间,
+        node->data = i * 20;
+        lateNode->next = node;
+        lateNode = node;
     }
     return OK;
 }
@@ -133,20 +208,11 @@ void PrintLinkedList(LinkedList l)
     }
 }
 
-/* 
-    使用后插法的方式创建一个链表
-    每次创建的节点,都要插入在最后一个位置
-    先是头指针指向头节点,然后才是添加数据节点,每次数据节点添加时,都是直接添加到最后面,
-    并且使用一个尾指针，一直指向最后的一个节点，方便随时用来进行操作末尾的元素
-*/
-Status CreateList_R(LinkedList *list)
-{
-    return OK;
-}
-
 LinkedList testInitList();
 
 void testSingleLinkedList();
+
+void testTailCreateSingleLinkedList();
 
 int main()
 {
@@ -154,11 +220,15 @@ int main()
     printf("\n\n测试初始化\n");
     LinkedList list = testInitList();
 
-    //测试单链表
-    printf("\n\n测试单链表\n");
-    testSingleLinkedList(list);
+    // //测试单链表
+    // printf("\n\n测试头插法创建单链表\n");
+    // testSingleLinkedList(list);
 
-    //测试单链表
+    //测试尾部插法创建单链表
+    printf("\n\n测试尾部插法创建单链表\n");
+    testTailCreateSingleLinkedList(list);
+
+    //测试单链表的查找功能
     printf("\n\n测试单链表的查找功能\n");
     ElemType e = -1;
     GetElem(list, 5, &e);
@@ -171,6 +241,24 @@ int main()
         printf("查找到的节点为NULL \n");
     else
         printf("查找到的节点的地址空间为 %#X  数据值为 : %d\n", tempNode, tempNode->data);
+
+    //插入新的节点元素
+    printf("\n\n测试插入新的节点元素\n");
+    int status = ListInsert(list, 15, 9999999);
+    if (status)
+        printf("插入元素成功\n");
+    else
+        printf("插入元素失败\n");
+    PrintLinkedList(list);
+
+    //删除节点元素
+    printf("\n\n删除节点元素\n");
+    status = ListDelete(list, 0);
+    if (status)
+        printf("删除节点元素成功\n");
+    else
+        printf("删除节点元素失败\n");
+    PrintLinkedList(list);
 
     return 0;
 }
@@ -193,5 +281,14 @@ void testSingleLinkedList(LinkedList list)
     int status = CreateList_H(list, 15);
     if (status == OK)
         printf("首插法创建链表成功\n");
+    PrintLinkedList(list);
+}
+
+//测试尾插法创建单链表
+void testTailCreateSingleLinkedList(LinkedList list)
+{
+    int status = CreateList_L(list, 15);
+    if (status == OK)
+        printf("尾部插入法创建链表成功\n");
     PrintLinkedList(list);
 }
