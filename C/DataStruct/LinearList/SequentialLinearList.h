@@ -1,5 +1,6 @@
 //顺序线性表
 #include <stdio.h>
+#include <stdbool.h>
 
 #define OK 1
 #define ERROR -1;
@@ -7,14 +8,11 @@
 #define FALSE -1;
 
 //定义线性表的结构体
-#define MAXSIZE 500    //定义常量
+#define MAXSIZE 500 //定义常量
 
-typedef struct Book{
-    char no[20];
-    char *name;
-    float price;
-} ElemType;//给数据类型取别名
-typedef int Status;   //给数据类型重命名
+typedef int ElemType;
+
+typedef int Status; //给数据类型重命名
 
 typedef struct
 {
@@ -27,6 +25,10 @@ Status InitList(SeqList *list)
 {
     printf("正在初始化的SeqList的内存地址 ---->  %#X \n", list);
     list->length = 0;
+    for(int i = 0 ; i < sizeof(list->data)/sizeof(ElemType);i++)
+    {
+        list->data[i] = 0;
+    }
     return OK;
 }
 
@@ -39,21 +41,39 @@ int Length(SeqList list)
 /* 
     根据元素值查找索引,并返回对应的查找到的索引
 */
-void LocateElem(SeqList *l, ElemType *e, int *index)
+ElemType LocateElem(SeqList *l, int index)
 {
-    for(int i = 0 ; i < l->length;i++)
+    for (int i = 0; i < l->length; i++)
     {
-        if(l->data[i].name == e->name)
+        if (i == index)
         {
-            *index = i;
-            break;
+            return l->data[i];
         }
     }
 }
 
 //根据元素的索引来查找
-void GetElem(SeqList l, int i)
+ElemType getElem(SeqList *l, int i)
 {
+    return l->data[i];
+}
+
+/*
+    判断元素在线性表中是否存在
+ */
+bool isExist(SeqList *l, ElemType value)
+{
+    if (l == NULL)
+        return false;
+    for (int i = 0; i < l->length; i++)
+    {
+        if (getElem(l, i) == value)
+        {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 /*
@@ -115,15 +135,20 @@ Status ListDelete(SeqList *l, int i, ElemType *e)
 //打印线性表中的所有元素
 void PrintList(SeqList *l)
 {
+    if (l == NULL)
+        return;
     for (int i = 0; i < l->length; i++)
     {
-        printf("元素索引位置 %d ,  书名 : %s , 版号 : %s ,价格: %f \n", i, l->data[i].name,l->data[i].no,l->data[i].price);
+        printf("arr[%d] : %d \n", i, l->data[i]);
     }
 }
 
 //判断整个线性表是否为空表
-Status Empty(SeqList l)
+bool isEmpty(SeqList l)
 {
+    if (l.length == 0)
+        return true;
+    return false;
 }
 
 //销毁线性表,并释放线性表所占据的空间

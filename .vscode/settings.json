@@ -2,6 +2,8 @@
     "files.associations": {
         "stdio.h": "c",
         "linearlist.h": "c",
-        "sequentiallinearlist.h": "c"
+        "sequentiallinearlist.h": "c",
+        "singlelinkedlist": "c",
+        "singlelinkedlist_copy.h": "c"
     }
 }

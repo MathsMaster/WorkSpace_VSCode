@@ -127,14 +127,14 @@ int getListLength(LinkedList list)
     desNode 用来进行返回的
     index从0开始，0表示首元节点的索引
  */
-bool getListNodeByIndex(LinkedList list, int index, Node *desNode)
+Node* getListNodeByIndex(LinkedList list, int index)
 {
     if (list == NULL)
-        return false;
+        return NULL;
 
     int len = getListLength(list);
     if (len <= 0 || index >= len)
-        return false;
+        return NULL;
 
     //先指向首元节点，可能为空
     Node *tempNode = list->next;
@@ -142,12 +142,11 @@ bool getListNodeByIndex(LinkedList list, int index, Node *desNode)
     while (true)
     {
         if (i >= len)
-            return false;
+            return NULL;
 
         if (i == index)
         {
-            desNode = tempNode;
-            return true;
+            return tempNode;
         }
         tempNode = tempNode->next;
         i++;
@@ -181,10 +180,10 @@ Node *getListLastNode(LinkedList list)
     e 数据元素
     考虑几种特殊情况，往index< 0 , index== 0 ,index>len , index== len插入的情况
  */
-Status ListInsert(LinkedList list, int index, ElemType e)
+bool ListInsert(LinkedList list, int index, ElemType e)
 {
     if (list == NULL || index < 0)
-        return ERROR;
+        return false;
 
     //获取到链表长度,判断插入位置的索引
     int len = getListLength(list);
@@ -224,8 +223,8 @@ Status ListInsert(LinkedList list, int index, ElemType e)
         }
         else //插入位置在中间
         {
-            bool isExist = getListNodeByIndex(list, index, preNode);
-            if (isExist)
+            preNode = getListNodeByIndex(list, index-1);//应该找到当前待插入节点的前一个节点
+            if (preNode != NULL)
             {
                 nextNode = preNode->next; //后继节点可能为空
                 tempNode = malloc(sizeof(Node));
@@ -236,18 +235,21 @@ Status ListInsert(LinkedList list, int index, ElemType e)
                 preNode->next = tempNode;
                 tempNode->previous = preNode;
                 tempNode->next = nextNode;
-                nextNode->previous = tempNode;
+                if (nextNode != NULL)
+                    nextNode->previous = tempNode;
             }
             else
             {
-                return ERROR;
+                return false;
             }
         }
     }
     else
     {
-        return ERROR;
+        return false;
     }
+
+    return true;
 }
 
 /* 
@@ -262,6 +264,8 @@ void PrintLinkedList(LinkedList l)
         printf("传进来的指针是NULL");
         return;
     }
+
+    printf("传进来的链表长度(不包括头节点) : %d \n", getListLength(l));
 
     Node *tempNode = l; //从头节点开始打印
 
@@ -300,5 +304,14 @@ int main()
         printf("删除操作成功\n");
     else
         printf("删除操作失败\n");
+    PrintLinkedList(l);
+
+    //测试双向链表的插入操作
+    printf("\n\n测试双向链表的插入操作\n");
+    bool isSuccess = ListInsert(l, 1, 2333333);
+    if (isSuccess)
+        printf("插入操作成功\n");
+    else
+        printf("插入操作失败\n");
     PrintLinkedList(l);
 }

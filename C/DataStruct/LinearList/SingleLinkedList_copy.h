@@ -13,7 +13,7 @@ typedef int ElemType; //给数据类型取别名
 typedef int Status; //给数据类型重命名
 
 /* 定义单链表的结构体 */
-typedef struct
+typedef struct Node
 {
     ElemType data;     //节点上存储数据的部分
     struct Node *next; //节点上指向下一个节点的指针索引
@@ -32,6 +32,27 @@ Status InitList(LinkedList list)
     *list = headerNode; //创建头节点，并且给头指针赋值
     list->next = NULL;  //当前的链表只有头节点，还没有任何数据元素
     return OK;
+}
+
+int Length(LinkedList list)
+{
+    if (list == NULL)
+        return 0;
+    int len = 0;
+    Node *node = list->next; //先拿到首元节点的指针
+    while (true)
+    {
+        if (node != NULL)
+        {
+            len++;
+            node = node->next;
+        }
+        else
+        {
+            break;
+        }
+    }
+    return len;
 }
 
 /* 
@@ -77,6 +98,19 @@ Node *LocateElem(LinkedList list, ElemType e)
 }
 
 /* 
+    判断链表中是否已经存在相同的数据了
+ */
+bool isExist(LinkedList list, ElemType e)
+{
+    if (list == NULL)
+        return false;
+    if (LocateElem(list, e) != NULL)
+        return true;
+    else
+        return false;
+}
+
+/* 
     往链表中插入数据(需要创建元素)
     list 指向单链表头节点的指针
     index 元素插入位置的索引,从0开始计算，以首元节点为0
@@ -88,7 +122,7 @@ Status ListInsert(LinkedList list, int index, ElemType e)
         return ERROR;
     if (index == 0) //如果是准备从第0个元素的位置插入
     {
-        Node *newNode = malloc(sizeof(Node)); //创建新节点所需的空间
+        Node *newNode = (Node *)malloc(sizeof(Node)); //创建新节点所需的空间
         newNode->data = e;
         newNode->next = list->next;
         list->next = newNode;
@@ -107,7 +141,7 @@ Status ListInsert(LinkedList list, int index, ElemType e)
             if (tempNode == NULL) //什么时候判断是否越界比较好呢
                 return ERROR;
         }
-        Node *newNode = malloc(sizeof(Node)); //创建新节点所需的空间
+        Node *newNode = (Node *)malloc(sizeof(Node)); //创建新节点所需的空间
         newNode->data = e;
         newNode->next = tempNode->next;
         tempNode->next = newNode;
@@ -159,7 +193,8 @@ Status CreateList_H(LinkedList l, int n)
 {
     for (int i = 0; i < n; i++)
     {
-        Node *node = malloc(sizeof(Node)); //不断开辟新的空间
+        Node *node = (Node *)malloc(sizeof(Node)); //不断开辟新的空间
+        node->next = NULL;
         node->data = i * 10;
         node->next = l->next; //将头节点后面的其他节点,都挂到新的节点上
         l->next = node;       //将新加入的节点,挂到头节点上
@@ -178,7 +213,7 @@ Status CreateList_L(LinkedList list, int len)
     Node *lateNode = list;
     for (int i = 0; i < len; i++)
     {
-        Node *node = malloc(sizeof(Node)); //开辟节点的空间,
+        Node *node = (Node *)malloc(sizeof(Node)); //开辟节点的空间,
         node->data = i * 20;
         node->next = NULL;
         lateNode->next = node;
@@ -213,9 +248,9 @@ LinkedList testInitList();
 
 void testSingleLinkedList();
 
-void testTailCreateSingleLinkedList();
+void testTailCreateSingleLinkedList(LinkedList);
 
-int main()
+void mainTest()
 {
     //测试初始化
     printf("\n\n测试初始化\n");
@@ -260,14 +295,12 @@ int main()
     else
         printf("删除节点元素失败\n");
     PrintLinkedList(list);
-
-    return 0;
 }
 
 //测试初始化
 LinkedList testInitList()
 {
-    LinkedList list = malloc(sizeof(Node)); //初始化一个头节点对象
+    LinkedList list = (LinkedList)malloc(sizeof(Node)); //初始化一个头节点对象
     printf("初始化头节点 开辟的内存空间大小 : %d , 开辟的空间地址为 : %#X\n", sizeof(Node), list);
     int status = InitList(list);
     if (status == OK)
