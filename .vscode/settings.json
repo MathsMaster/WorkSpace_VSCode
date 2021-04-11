@@ -4,6 +4,9 @@
         "linearlist.h": "c",
         "sequentiallinearlist.h": "c",
         "singlelinkedlist": "c",
-        "singlelinkedlist_copy.h": "c"
+        "singlelinkedlist_copy.h": "c",
+        "utils.h": "c",
+        "circulardoublelinkedlist.h": "c",
+        "math.h": "c"
     }
 }

@@ -111,6 +111,19 @@ bool isExist(LinkedList list, ElemType e)
 }
 
 /* 
+    判断链表中是否已经存在相同的数据了
+ */
+bool isExistByPointer(LinkedList list, Node * node)
+{
+    if (list == NULL || node == NULL)
+        return false;
+    if (LocateElem(list, node->data) != NULL)
+        return true;
+    else
+        return false;
+}
+
+/* 
     往链表中插入数据(需要创建元素)
     list 指向单链表头节点的指针
     index 元素插入位置的索引,从0开始计算，以首元节点为0
@@ -123,6 +136,7 @@ Status ListInsert(LinkedList list, int index, ElemType e)
     if (index == 0) //如果是准备从第0个元素的位置插入
     {
         Node *newNode = (Node *)malloc(sizeof(Node)); //创建新节点所需的空间
+        newNode->next = NULL;
         newNode->data = e;
         newNode->next = list->next;
         list->next = newNode;
@@ -142,6 +156,7 @@ Status ListInsert(LinkedList list, int index, ElemType e)
                 return ERROR;
         }
         Node *newNode = (Node *)malloc(sizeof(Node)); //创建新节点所需的空间
+        newNode->next = NULL;
         newNode->data = e;
         newNode->next = tempNode->next;
         tempNode->next = newNode;

@@ -103,11 +103,9 @@ LinkedList MergeOrderData(LinkedList list_1, LinkedList list_2)
         return list_1;
     if (list_1 == NULL)
         return list_2;
-
     //创建两个指针
     Node *node_1 = list_1->next;
     Node *node_2 = list_2->next;
-
     while (true)
     {
         if (node_1 == NULL) //先判断线性表1或者表2是否到头了,将表2剩余数据全部插入第三方表
