@@ -5,6 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "java",
+            "name": "Launch Test",
+            "request": "launch",
+            "mainClass": "Test",
+            "projectName": "WorkSpace_VSCode_f6268286"
+        },
+        {
             "name": "gcc - 生成和调试活动文件",
             "type": "cppdbg",
             "request": "launch",
