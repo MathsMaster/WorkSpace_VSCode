@@ -1,3 +1,6 @@
+/* 
+    三种表示树的存储结构
+ */
 #include <stdio.h>
 #include <string.h>
 

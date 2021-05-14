@@ -7,6 +7,7 @@
         "singlelinkedlist_copy.h": "c",
         "utils.h": "c",
         "circulardoublelinkedlist.h": "c",
-        "math.h": "c"
+        "math.h": "c",
+        "time.h": "c"
     }
 }
