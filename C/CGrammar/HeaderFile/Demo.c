@@ -8,7 +8,7 @@ int max();//这里很像Java中的接口啊
 void testExtern()
 {
     int result = max();//这里使用的参数在编译时，会去查找对应的实现处
-    printf("max() : %d \n",result);
+    printf("头文件返回的结果 max() : %d \n",result);
 
     //也就是说，如果在变量定义之前要使用该变量，则应在使用之前加 extern 声明变量，使作用域扩展到从声明开始到本文件结束。
     extern int i; //在这里进行声明,等运行时，使用下面的赋值

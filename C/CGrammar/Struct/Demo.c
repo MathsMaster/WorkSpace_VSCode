@@ -23,6 +23,8 @@ void testStruct()
     stu3.group = 'A';
     stu3.fenshu = 100;
     printf("stu1.name : %s , stu1.num : %d , stu1.age : %d , stu1.group : %c , stu1.fenshu :%f\n", stu1.name, stu1.num, stu1.age, stu1.group, stu1.fenshu);
+    printf("stu3.name : %s , stu3.num : %d , stu3.age : %d , stu3.group : %c , stu3.fenshu :%f\n", stu3.name, stu3.num, stu3.age, stu3.group, stu3.fenshu);
+
 }
 
 /* 测试C语言结构体数组 */
@@ -69,7 +71,7 @@ void testStructPointer()
 {
     //两种定义结构体指针的方式，一种使在定义结构体时直接定义指针变量
     struct Stu *sp = &stu1;
-
+    printf("对象的地址 : %#x   指针变量的值:%#x \n", &stu1,sp);
     //sp->num 和 (*sp).num效果一样
     printf("通过结构体指针获取对象变量 name : %s , num : %d\n", (*sp).name, (*sp).num);
     printf("通过结构体指针获取对象变量 name : %s , num : %d\n", sp->name, sp->num);
@@ -154,7 +156,7 @@ void testEnum()
 {
     enum Week
     {
-        Mon = 1,
+        Mon = 19,
         Tues,
         Wed,
         Thurs
@@ -174,6 +176,7 @@ void testUnion()
         int num;
         char sex;
         char profession;
+        //联合体使用的同一块地址空间
         union
         {
             float score;

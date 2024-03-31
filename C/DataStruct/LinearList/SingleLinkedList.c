@@ -219,7 +219,7 @@ int main()
 {
     //测试初始化
     printf("\n\n测试初始化\n");
-    LinkedList list = testInitList();
+    LinkedList list = testInitList();//这里直接创建了头节点，并返回了其地址
 
     // //测试单链表
     // printf("\n\n测试头插法创建单链表\n");

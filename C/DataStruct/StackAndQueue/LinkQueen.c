@@ -29,13 +29,15 @@ typedef struct
 
 /* 
     初始化队列,就是创建头节点，然后让头节点和尾节点都指向该空间
+    在C语言中，头节点之后，才是第一个元素节点(首元节点),空链表才是只有头节点
  */
 bool initQueen(LinkQueen *linkQueen)
 {
     printf("开始初始化.... \n");
     if (linkQueen == NULL)
         exit(OVERFLOW);                                       //直接退出程序
-    linkQueen->rear = linkQueen->head = malloc(sizeof(Node)); //开始时都指向了头节点
+    //这里不需要这么做，实际上创建的linkQueen对象已经有一块空间了，完全可以当作头节点使用
+    linkQueen->rear = linkQueen->head = malloc(sizeof(Node)); //开始时都指向了头节点（头节点是不含有值的）
     if (linkQueen->head == NULL)                              //如果没法开辟空间
         exit(OVERFLOW);                                       //直接退出程序
     linkQueen->head->next = NULL;
@@ -156,6 +158,7 @@ void traverseQueen(LinkQueen *linkQueen)
 int main()
 {
     LinkQueen linkQueen;//创建队列的对象，里面只有两个节点指针
+    printf("队列的地址 : %#x \n",&linkQueen);
     printf("测试链式队列的初始化。。。。。。\n");
     initQueen(&linkQueen);
     printf("队列的长度 : %d \n",getQueenLength(&linkQueen));

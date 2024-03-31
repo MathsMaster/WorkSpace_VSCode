@@ -54,6 +54,7 @@ void testNullVoidPointer()
 void testArrayAndPointer()
 {
     int arr[6] = {1, 2, 3, 4, 5, 6};
+    printf("数组的元素 : %d,%d,%d,%d,%d,%d\n", arr[0], arr[1], arr[2], arr[3], arr[4], arr[5], arr[6]);
     int *p = arr;
     printf("数组arr的地址 : %#X \n", arr);
     printf("通过指针去取数组的元素 : %d,%d,%d,%d,%d,%d\n", *p, *p + 1, *p + 2, *p + 3, *p + 4, *p + 5, *p + 6);
@@ -71,6 +72,16 @@ void testArrayAndPointer()
 void testArraySwitchPointer()
 {
     int arr[] = {0, 1, 2, 3, 4, 5};
+    //这两种方法输出的都是首地址的值
+    printf("数组的首地址 : %#x\n", arr);
+    printf("数组的首地址 : %#x\n", &arr);
+    //这两种方法输出的都是第一个元素的值
+    printf("arr[0] : %d\n", arr[0]);
+    printf("*(arr) : %d\n", *(arr));
+    //这样输出的竟然是别的值
+    printf("*(&arr) : %d\n", *(&arr));
+    
+
     int *p;
     p = arr; //把数组首地址，赋值到指针的空间中
     printf("arr[] : %d\n", sizeof(arr));
@@ -100,7 +111,7 @@ void testArraySwitchPointer()
 void testPointerArray()
 {
     int a = 18, b = 12, c = 10;
-    //定义个指针数组，里面每个元素都是指针
+    //定义个指针数组，里面每个元素都是指针,本质上还是数组
     int *arr[] = {&a, &b, &c};
     //定义一个二级指针，用来指向指针数组的首地址
     int **p = &arr; //这样写，表示此时的arr是个数组，这是取出其首地址
@@ -126,7 +137,7 @@ void testTwoWeiArrayPointer()
     printf("这里的 p +1 : %#X \n", p + 1); //0XEB6C6780 比上行的结果大了16，表明指针地址增加了一个步长，而这个步长正好取决于指针所指向的数据类型
     // int *p = arr;
     int a = arr;
-    printf("这里的p : %#X , arr[0][0] : %d\n", p, a); //这里打印的结果一样，表示这里都是取的arr数组的首地址
+    printf("这里的p : %#X , arr[0][0] : %#X\n", p, a); //这里打印的结果一样，表示这里都是取的arr数组的首地址
     //取出指向的第一行数组
     printf("取出指向的第0行数组,0行数组的长度为 : %d\n", sizeof(*p));
     printf("取出了第0行的那个数组 *p : %#X \n", *p); //*p表示取出了第0行的那个数组,所以打印出来的是数组首地址

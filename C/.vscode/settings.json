@@ -1,0 +1,30 @@
+{
+    "files.associations": {
+        "greeting.h": "c",
+        "types.h": "c",
+        "wait.h": "c",
+        "__mutex_base": "c",
+        "utils.h": "c",
+        "__functional_base": "c",
+        "__functional_base_03": "c",
+        "__hash_table": "c",
+        "__tuple": "c",
+        "array": "c",
+        "chrono": "c",
+        "type_traits": "c",
+        "functional": "c",
+        "limits": "c",
+        "memory": "c",
+        "ratio": "c",
+        "tuple": "c",
+        "utility": "c",
+        "algorithm": "c",
+        "stdio.h": "c",
+        "cstdio": "c",
+        "stdlib.h": "c",
+        "pthread.h": "c",
+        "semaphore.h": "c",
+        "test.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
+}

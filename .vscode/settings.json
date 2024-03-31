@@ -8,6 +8,27 @@
         "utils.h": "c",
         "circulardoublelinkedlist.h": "c",
         "math.h": "c",
-        "time.h": "c"
+        "time.h": "c",
+        "typeinfo": "c",
+        "chrono": "c",
+        "cmath": "c",
+        "complex": "c",
+        "cstdlib": "c",
+        "stdlib.h": "c",
+        "__config": "c",
+        "algorithm": "c",
+        "cstdio": "c",
+        "ostream": "c",
+        "string.h": "c",
+        "kernel.h": "c",
+        "fs.h": "c",
+        "__locale": "c",
+        "ios": "c",
+        "istream": "c",
+        "bitset": "c",
+        "iosfwd": "c",
+        "iterator": "c",
+        "sstream": "c",
+        "string": "c"
     }
 }

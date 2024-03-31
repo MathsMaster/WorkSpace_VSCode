@@ -17,5 +17,7 @@ int main()
 
     printf("书本的内容  book.content : %s\n",book.content);
     printf("书本的价格  book.price : %d\n",book.price);
+    printf("书本的名字  book.name : %s\n",book.name);
+
     return 0;
 }

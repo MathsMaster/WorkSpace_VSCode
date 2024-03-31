@@ -2,14 +2,14 @@
 #include <stdio.h>
 #include <string.h>
 
-void modify(int arr[]);
+void modify(int arr[]);//这里是在进行申明，实现却是放在下面了
 
 void TestString();
 
 int main()
 {
     printf("Hello World!\n");
-    int a = 10;
+    unsigned int a = 10;
     printf("a++ : %d \n",a++);
     printf("++a : %d \n",++a);
 
